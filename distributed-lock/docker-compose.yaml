@@ -1,0 +1,39 @@
+version: "3.9"
+services:
+  app:
+    build:
+      context: .
+      args:
+        - JAR_FILE=/target/distributed-lock-0.0.1-SNAPSHOT.jar
+    deploy:
+      replicas: 5
+    depends_on:
+      db:
+        condition: service_healthy
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8085:8080
+  db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 'password'
+      MYSQL_DATABASE: 'lock_db'
+    ports:
+      - "3306:3306"
+    volumes:
+      - my-db:/var/lib/mysql
+    expose:
+      - "3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost", "-uroot", "-ppassword"]
+      timeout: 20s
+      retries: 40
+      #      start_period: 20s
+      interval: 10s
+
+volumes:
+  my-db:

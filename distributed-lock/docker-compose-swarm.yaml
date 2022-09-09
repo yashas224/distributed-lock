@@ -1,0 +1,39 @@
+version: "3.9"
+services:
+  app:
+    image: yashassamaga/distributed-lock:latest
+    deploy:
+      replicas: 5
+    ports:
+      - "8082:8080"
+    networks:
+      - appnet
+    depends_on:
+      - db
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8085:8080
+    networks:
+      - appnet
+  db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 'password'
+      MYSQL_DATABASE: 'lock_db'
+    ports:
+      - "3306:3306"
+    volumes:
+      - my-db:/var/lib/mysql
+    expose:
+      - "3306"
+    networks:
+      - appnet
+
+volumes:
+  my-db:
+networks:
+  appnet:

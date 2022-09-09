@@ -1,0 +1,37 @@
+--to build the docker image:
+docker build -t distributed-lock --build-arg JAR_FILE=/target/distributed-lock-0.0.1-SNAPSHOT.jar .
+
+-- tag the image
+docker tag distributed-lock yashassamaga/distributed-lock:latest
+
+
+-- to push the image to docker hub account
+docker login
+
+docker push yashassamaga/distributed-lock:latest
+
+docker logout
+
+
+ref: https://jhooq.com/requested-access-to-resource-is-denied/#:~:text=As%20the%20error%20says%20requested,or%20any%20other%20docker%20command.&text=Or%20you%20are%20not%20using%20the%20docker%20hub%20credentials%20correctly.
+
+
+
+swarm commands!!!
+
+docker swarm init
+
+docker stack deploy -c docker-compose-swarm.yaml  distributed-lock-demo
+
+
+docker service ls
+
+docker stack deploy -c docker-compose-swarm.yaml distributes-lock-demo
+
+docker service logs -f  <podId>
+
+clean up commands
+
+docker stack rm  distributed-lock-demo
+
+docker swarm leave --force
