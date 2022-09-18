@@ -60,6 +60,7 @@ public class SchedulerConfig {
   @Scheduled(cron = "0 0/2 * * * ?")
   @SchedulerLock(name = Constants.schedulerName, lockAtLeastFor = "120s")
   public void schedulingJobWithShedLock() throws UnknownHostException {
+    LockAssert.assertLocked();
 
     InetAddress ip = InetAddress.getLocalHost();
     String hostname = ip.getHostName();
