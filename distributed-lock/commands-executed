@@ -28,6 +28,8 @@ docker service ls
 
 docker stack deploy -c docker-compose-swarm.yaml distributes-lock-demo
 
+docker stack deploy -c docker-compose-swarm-without-db.yaml distributed-lock-region-1
+
 docker service logs -f  <podId>
 
 clean up commands
