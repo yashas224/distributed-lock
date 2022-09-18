@@ -1,0 +1,1 @@
+Hibernate: create table shedlock (name varchar(255) not null, lock_until TIMESTAMP not null, locked_at TIMESTAMP not null, locked_by varchar(255) not null, primary key (name)) engine=InnoDB
