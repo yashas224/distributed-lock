@@ -1,0 +1,16 @@
+version: "3.9"
+services:
+  app:
+    image: yashassamaga/distributed-lock:latest
+    environment:
+      - lock.datasource.url=jdbc:mysql://host.docker.internal:3306/lock_db
+    deploy:
+      replicas: 5
+    ports:
+      - "8083:8080"
+    networks:
+      - appnet
+    depends_on:
+      - db
+networks:
+  appnet:
